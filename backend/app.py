@@ -285,11 +285,11 @@ def method_not_allowed(e):
         'available_methods': ['GET', 'POST', 'OPTIONS']
     }), 405
 
-# if __name__ == "__main__":
-#     print("Starting Flask server...")
-#     print("Available routes:")
-#     for rule in app.url_map.iter_rules():
-#         print(f"  {rule.endpoint}: {rule.rule} -> {list(rule.methods)}")
-#     port = int(os.getenv("PORT", 8080))
-#     print(">>> Using PORT =", port)
-#     app.run(host="0.0.0.0", port=port, debug=False)
+if __name__ == "__main__":
+    print("Starting Flask server...")
+    print("Available routes:")
+    for rule in app.url_map.iter_rules():
+        print(f"  {rule.endpoint}: {rule.rule} -> {list(rule.methods)}")
+    # port = int(os.getenv("PORT", 8080))
+    # print(">>> Using PORT =", port)
+    app.run()
