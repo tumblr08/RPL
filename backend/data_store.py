@@ -1,10 +1,10 @@
+import os
 import mysql.connector
 from mysql.connector import Error
 import json
 from typing import Optional, List
 from models import User, Project, Task, Consultation, TeamEvaluation, Document, ChecklistItem
 import datetime
-import os
 
 # Database configuration (USE YOUR DETAILS FROM THE SCREENSHOT)
 DB_CONFIG = {
