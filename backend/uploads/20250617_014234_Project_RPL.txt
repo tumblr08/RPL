@@ -1,0 +1,16 @@
+Project RPL
+3 minggu lagi
+
+hosting.doovera.com
+
+
+kelompok7Rpl
+Host: 128.199.219.166
+Username: user_2304130119
+Password: kelompok7Rpl
+Database: db_2304130119
+
+mysql -u (username) -p -h <host-id>
+mysql -u user_2304130119 -p -h 128.199.219.166
+
+mysql -u (username) -p -h <host-id> db_NIM < nama_sql
