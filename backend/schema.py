@@ -581,63 +581,12 @@ class Mutation:
             )
         else:
             raise Exception("Gagal membuat evaluasi tim")
-
-    @strawberry.mutation
-    def upload_document(self, input: UploadDocumentInput) -> DocumentResponse:
-        try:
-            # PENTING: File path harus di-handle oleh REST endpoint /upload di app.py.
-            # Mutasi ini seharusnya hanya mencatat metadata dokumen ke DB.
-            # Jika mutasi ini dipanggil, file_path harus sudah tersedia (misalnya, dikirim sebagai input)
-            # Karena input.file_path tidak ada, ini adalah logika dummy atau harus diubah.
-
-            # Untuk tujuan perbaikan SyntaxError, kita akan menambahkan except.
-            # Namun, disarankan untuk MENGHAPUS MUTASI INI
-            # dan biarkan REST API (app.py) yang menanganinya sepenuhnya.
-
-            # Contoh jika tetap ingin menyimpan mutasi ini (dengan perbaikan SyntaxError)
-            # asumsi file_path adalah string dummy atau sudah ditangani di tempat lain.
-            # Sebaiknya tambahkan input.file_path ke UploadDocumentInput jika ini tujuan Anda.
-            file_path = f"uploads/{input.filename}"
-
-            document = Document(
-                id=len(documents) + 1, # <-- Masih pakai in-memory list. Harus pakai create_document dari data_store
-                filename=input.filename,
-                file_path=file_path, # <-- Ini harus path aktual
-                file_size=input.file_size,
-                content_type=input.content_type,
-                uploaded_at=datetime.datetime.now(),
-                project_id=int(input.project_id) if input.project_id else None,
-                task_id=int(input.task_id) if input.task_id else None,
-                uploaded_by=int(input.uploaded_by) if input.uploaded_by else None
-            )
-            documents.append(document) # <-- Masih pakai in-memory list. Harus pakai create_document dari data_store
-
-            document_type = DocumentType(
-                id=strawberry.ID(document.id),
-                filename=document.filename,
-                file_path=document.file_path,
-                file_size=document.file_size,
-                content_type=document.content_type,
-                uploaded_at=document.uploaded_at,
-                project_id=strawberry.ID(document.project_id) if document.project_id else None,
-                task_id=strawberry.ID(document.task_id) if document.task_id else None,
-                uploaded_by=strawberry.ID(document.uploaded_by) if document.uploaded_by else None
-            )
-
-            return DocumentResponse(
-                success=True,
-                message="Dokumen berhasil diupload",
-                document=document_type
-            )
-        except Exception as e: # <-- Blok except yang hilang dan menyebabkan error
-            return DocumentResponse(
-                success=False,
-                message=f"Error uploading document: {str(e)}"
-            )
-
+    
+    # Mutasi upload_document dihapus karena sudah ditangani oleh REST endpoint /upload di app.py
+    
     @strawberry.mutation
     def delete_document(self, document_id: strawberry.ID) -> DocumentResponse:
-        try: # Baris 575, seperti yang disebutkan di error Anda
+        try:
             document = get_document_by_id(int(document_id))
             if not document:
                 return DocumentResponse(
