@@ -6,13 +6,12 @@ from typing import Optional, List
 from models import User, Project, Task, Consultation, TeamEvaluation, Document, ChecklistItem
 import datetime
 
-# Database configuration (USE YOUR DETAILS FROM THE SCREENSHOT)
 DB_CONFIG = {
-    'host': os.getenv('DB_HOST'),
-    'database': os.getenv('DB_NAME'),
-    'user': os.getenv('DB_USER'),
-    'password': os.getenv('DB_PASS'),
-    'port': int(os.getenv('DB_PORT', 3306))
+    'host': os.getenv('MYSQL_HOST') or os.getenv('DB_HOST') or 'mysql.railway.internal',
+    'database': os.getenv('MYSQL_DATABASE') or os.getenv('DB_NAME') or 'railway',
+    'user': os.getenv('MYSQL_USER') or os.getenv('DB_USER') or 'root',
+    'password': os.getenv('MYSQL_PASSWORD') or os.getenv('DB_PASS'),
+    'port': int(os.getenv('MYSQL_PORT', os.getenv('DB_PORT', '3306')))
 }
 
 def get_db_connection():
