@@ -1,4 +1,5 @@
 import os
+import logging
 from flask import Flask, request, jsonify, send_file
 from strawberry.flask.views import GraphQLView
 from werkzeug.utils import secure_filename
@@ -285,12 +286,23 @@ def method_not_allowed(e):
         'available_methods': ['GET', 'POST', 'OPTIONS']
     }), 405
 
+# Setup logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# Debug environment variables
+logger.info("=== ENVIRONMENT VARIABLES ===")
+logger.info(f"PORT: {os.environ.get('PORT', 'NOT SET')}")
+logger.info(f"DB_HOST: {os.environ.get('DB_HOST', 'NOT SET')}")
+logger.info(f"DB_PORT: {os.environ.get('DB_PORT', 'NOT SET')}")
+logger.info(f"MYSQL_HOST: {os.environ.get('MYSQL_HOST', 'NOT SET')}")
+logger.info(f"MYSQL_PORT: {os.environ.get('MYSQL_PORT', 'NOT SET')}")
+
 if __name__ == "__main__":
-    print("Starting Flask server...")
-    print("Available routes:")
-    for rule in app.url_map.iter_rules():
-        print(f"  {rule.endpoint}: {rule.rule} -> {list(rule.methods)}")
-    # port = int(os.getenv("PORT", 8080))
-    port = int(os.environ.get("PORT", 8080))
-    # print(">>> Using PORT =", port)
-    app.run(host="0.0.0.0", port=port, debug=True)
+    logger.info("Starting Flask application...")
+    try:
+        port = int(os.environ.get("PORT", 8080))
+        logger.info(f"Using port: {port}")
+        app.run(host="0.0.0.0", port=port, debug=True)
+    except Exception as e:
+        logger.error(f"Failed to start application: {e}")
